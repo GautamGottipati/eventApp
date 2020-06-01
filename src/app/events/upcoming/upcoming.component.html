@@ -1,0 +1,32 @@
+<div class="container">
+<div class="row" *ngIf="posts.length > 0">
+  <mat-card class="event" *ngFor="let post of posts" >
+    <mat-card-header >
+      <mat-card-title>
+        {{ post.title }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{post.organiser}}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        {{post.info}}
+      </div>
+      <div class="row">
+        {{post.date.slice(0,10)}}
+      </div>
+      
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button [routerLink]="['/edit',post.id]" color="primary">EDIT</a>
+      <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+    </mat-card-actions>
+  </mat-card>
+
+  
+</div>  
+<p class="mat-body-1 info-text" *ngIf="posts.length ==0">* No posts added yet</p>
+
+</div>

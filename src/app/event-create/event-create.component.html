@@ -1,0 +1,42 @@
+<div class="container main">
+    <div class="row">
+        <h1 style="margin: auto;">Create</h1>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <form (submit)="onSavePost(postForm)" #postForm="ngForm" >
+            <mat-card>
+                <mat-form-field>
+                    <input matInput type="text" [ngModel]="post?.title" name="enteredTitle" placeholder="Enter Title" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" [ngModel]="post?.organiser" name="enteredOrg" placeholder="Enter your Organisation" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" [ngModel]="post?.info" name="enteredSummary" placeholder="Give a small summary upto 20 charaters about your event" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="date" [ngModel]="post?.date" name="enteredDate" placeholder="Enter the date of Event" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput rows="6" [ngModel]="post?.content" name="enteredValue" placeholder="Tell us about your event" required></textarea>
+                </mat-form-field>
+                
+                <button mat-raised-button color="accent" type="submit" t>Save Post</button>
+            </mat-card>
+    
+        </form>
+    
+    </div>
+    
+    <app-upcoming ></app-upcoming>
+
+    
+</div>
+<!-- <div class="container">
+</div> -->
+<!-- id : string;
+    title:string;
+    organiser:string;
+    info : string;
+    date : any;
+    content : string; -->
