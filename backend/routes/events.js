@@ -96,6 +96,7 @@ router.delete('/api/posts/:id',(req,res,next)=>{
 
 router.put("/api/posts/:id",(req,res,next)=>{
   const post = new Post({
+    id : req.params.id,
     title:req.body.title,
     organiser:req.body.organiser,
     info : req.body.info,

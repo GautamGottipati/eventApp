@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post } from './events.model';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class EventsService {
   private eventsUpdated = new Subject<Post[]>();
 
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient ,private router:Router) { }
 
   getPosts(){
     // console.log(this.events)
@@ -60,6 +61,7 @@ export class EventsService {
         newpost.id = id;
         this.events.push(newpost);
         this.eventsUpdated.next([...this.events]);
+        // this.router.navigate(["/createevent"]);
     });
   }
 
@@ -79,7 +81,8 @@ export class EventsService {
       const oldPostIndex = myupdatedPost.findIndex(p=> p.id === updatedPost.id);
       myupdatedPost[oldPostIndex]= updatedPost;
       this.events = myupdatedPost;
-      this.eventsUpdated.next([...this.events])
+      this.eventsUpdated.next([...this.events]);
+      // this.router.navigate(["/createevent"]); 
     });
   }
 

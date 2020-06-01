@@ -63,6 +63,7 @@ export class UpcomingComponent implements OnInit, OnDestroy {
   //   }
   // ]
 
+  isLoading = false;  
    posts = []
    private eventSub :Subscription;
 
@@ -75,9 +76,11 @@ export class UpcomingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading=true;
     this.eventService.getPosts();
     this.eventSub = this.eventService.getEventUpdateListener().subscribe(
       (event:Post[])=>{
+        this.isLoading=false;
         this.posts=event;
       }
     );
