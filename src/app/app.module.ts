@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'; 
 import { MatCardModule } from '@angular/material/card'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +27,9 @@ import { SuccessComponent } from './success/success.component';
 import { SignupComponent } from './signup/signup.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthInterceptor } from './auth-interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { PageComponent } from './admin/page/page.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +46,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SuccessComponent,
     SignupComponent,
     EventCreateComponent,
+    AdminComponent,
+    PageComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,14 +55,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CarouselModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatPaginatorModule,
+    MatGridListModule,
     HttpClientModule,
     MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

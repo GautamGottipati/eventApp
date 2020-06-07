@@ -2,13 +2,30 @@
     <p>REGISTER HERE</p>
 </div>
 <div class="container">
-    <form action="">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <form  *ngIf="!isLoading" (submit)="onSignup(signupForm)" #signupForm="ngForm">
         <div class="row">
             <div class="col-sm-6">
                 <label for="fullname">Full Name:</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" name="fullname" id="fullname" placeholder="Full Name">
+                <input type="text" name="fullname" ngModel id="fullname" placeholder="Full Name" #fullnameInput="ngModel" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="fullname">Password:</label>
+            </div>
+            <div class="col-sm-6">
+                <input type="password" ngModel name="password" id="password" placeholder="Password" #passwordInput="ngModel" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="fullname">Confirm Password:</label>
+            </div>
+            <div class="col-sm-6">
+                <input type="password" ngModel name="cpassword" id="cpassword" placeholder="Confirm Password" #cpasswordInput="ngModel" required>
             </div>
         </div>
         <div class="row">
@@ -16,7 +33,7 @@
                 <label for="mobileNo">Mobile No:</label>
             </div>
             <div class="col-sm-6">
-                <input type="tel" name="mobileNo" id="mobileNo" placeholder="Mobile">
+                <input type="tel" ngModel name="mobileNo" id="mobileNo" placeholder="Mobile" #mobilenoInput="ngModel" required>
             </div>
         </div>
         <div class="row">
@@ -24,31 +41,20 @@
                 <label for="email">Email address:</label>
             </div>
             <div class="col-sm-6">
-                <input type="email" #email placeholder="Enter email..." class="form-control" id="email">
+                <input type="email" ngModel name="email" #emailInput="ngModel" placeholder="Enter email..." class="form-control" id="email" required email>
             </div>
         </div>       
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="file">Upload Photo:</label>
-            </div>
-            <div class="col-sm-6">
-                <input type="file" id="myFile" name="filename2">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="file">Upload Photo:</label>
-            </div>
-            <div class="col-sm-6">
-                <input type="file" id="myFile" name="filename2">
-            </div>
-        </div>
          
         <br>
-        <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+        <button type="submit" class="btn btn-primary" style="float: right;" *ngIf="!isLoading">Submit</button>
+        <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
 
         
       </form> 
+      <div class="row" *ngIf="successfulSignup">
+          <p>You have successfully signed up.</p>
+          <span>Click here to login</span><a class="btn btn-primary" routerLink="/">Click</a>
+      </div>
   </div>
 
 

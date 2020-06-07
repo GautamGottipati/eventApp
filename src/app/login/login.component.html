@@ -1,21 +1,37 @@
 <p class="lheading">
     LOGIN
 </p>
-<div class="col-sm-12">
-    <form action="">
+<div class="col-sm-12" *ngIf="!userIsAuthenticated">
+    <mat-spinner  *ngIf = "isLoading"></mat-spinner>
+    <form   *ngIf="!isLoading" (submit)="onLogin(loginForm)" #loginForm="ngForm" >
         <div class="form-group">
           <label for="email">Email address:</label>
-          <input type="email" #email placeholder="Enter email..." class="form-control" id="email">
+          <input matInput ngModel type="email" name="email"  #emailInput="ngModel" placeholder="Enter email..." class="form-control" id="email" required email>
+          <mat-error *ngIf="emailInput.invalid">Please enter valid email</mat-error>
         </div>
         <div class="form-group">
           <label for="pwd">Password:</label>
-          <input type="password" #password placeholder="Enter Password" class="form-control" id="pwd">
+          <input matInput ngModel type="password" name="password" #passwordInput="ngModel" placeholder="Enter Password" class="form-control" id="pwd" required>
+          <mat-error *ngIf="passwordInput.invalid">Enter valid password</mat-error>
         </div>
-        <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+        <button type="submit" class="btn btn-primary" style="float: right;" *ngIf="!isLoading">Login</button>
+        <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
         <br>
-        <a href="#" (click)="callSignup()" >Don't have account? Signup</a>
+        <a style="color: blue;" (click)="callSignup()" >Don't have account? Signup</a>
         
       </form> 
+  </div>
+
+  <div class="col-sm-12" *ngIf="userIsAuthenticated">
+    <mat-spinner  *ngIf = "isLoading"></mat-spinner>
+    <div class="row">
+      Hello user!!
+    </div>
+    <div class="row">
+      <a routerLink="/createevent" class="btn btn-primary">Create Event</a>
+      <button class="btn btn-success" (click)="onLogout()">Logout</button>
+    </div>
+
   </div>
 
 

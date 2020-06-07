@@ -2,13 +2,13 @@
     <p>REGISTER HERE</p>
 </div>
 <div class="container">
-    <form action="">
+    <form [formGroup]="form" (submit)="register()" >
         <div class="row">
             <div class="col-sm-6">
                 <label for="fullname">Full Name:</label>
             </div>
             <div class="col-sm-6">
-                <input type="text" name="fullname" id="fullname" placeholder="Full Name">
+                <input type="text" formControlName="fullname" name="fullname" id="fullname" placeholder="Full Name">
             </div>
         </div>
         <div class="row">
@@ -16,7 +16,7 @@
                 <label for="mobileNo">Mobile No:</label>
             </div>
             <div class="col-sm-6">
-                <input type="tel" name="mobileNo" id="mobileNo" placeholder="Mobile">
+                <input type="tel" formControlName="mobileNo" name="mobileNo" id="mobileNo" placeholder="Mobile">
             </div>
         </div>
         <div class="row">
@@ -24,7 +24,7 @@
                 <label for="email">Email address:</label>
             </div>
             <div class="col-sm-6">
-                <input type="email" #email placeholder="Enter email..." class="form-control" id="email">
+                <input type="email" formControlName="emailid" #email placeholder="Enter email..." class="form-control" id="email">
             </div>
         </div>
         <div class="row">
@@ -32,7 +32,7 @@
                 <label for="regtype">Registration Type:</label>
             </div>
             <div class="col-sm-6">
-                <select id="reg" name="reg">
+                <select id="reg" [(ngModel)]="regtypeSelect" formControlName="regtype" name="reg" (change)="changeSelect()">
                     <option value="self">Self</option>
                     <option value="group">Group</option>
                 </select>
@@ -43,7 +43,8 @@
                 <label for="totalticket">Ticket count:</label>
             </div>
             <div class="col-sm-6">
-                <input type="number" class="totalticket" id="totalticket" placeholder="Total tickets">
+                <input *ngIf="self"  name="totalticket" type="text"  value="1"  readonly>
+                <input *ngIf="!self" type="number" formControlName="totalticket" class="totalticket" id="totalticket" placeholder="Total tickets">
             </div>
         </div>
         <div class="row">
@@ -51,12 +52,13 @@
                 <label for="file">Upload:</label>
             </div>
             <div class="col-sm-6">
-                <input type="file" id="myFile" name="filename2">
+                <button mat-stroked-button type="button" (click)="filePicker.click()">Upload Id</button><br>
+                <input type="file" #filePicker   (change)="onImagePicked($event)">
             </div>
         </div>
          
         <br>
-        <button type="submit" (click)="gotoConfirm()" class="btn btn-primary" style="float: right;">Submit</button>
+        <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
 
         
       </form> 

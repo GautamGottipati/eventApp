@@ -7,7 +7,9 @@ const postSchema = mongoose.Schema({
     organiser:{ type:String, required: true },
     info : { type:String, required: true },
     date : {type: Date, required:true},
-    content : {type:String, required:true}
+    content : {type:String, required:true},
+    imagePath : { type:String, required:true },
+    creator : {type: mongoose.Schema.Types.ObjectId, ref:"User", required:true}
 });
 
 module.exports =  mongoose.model('Post',postSchema);

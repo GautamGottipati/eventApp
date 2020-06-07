@@ -39,3 +39,16 @@ a:hover{
 mat-spinner{
     margin: auto;
 }
+
+mat-paginator{
+    margin-top: 1rem;
+    
+}
+
+.postimage{
+    width: 100%;
+}
+
+.postimage img{
+    width: 100%;
+}

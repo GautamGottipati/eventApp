@@ -11,6 +11,9 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { SuccessComponent } from './success/success.component';
 import { SignupComponent } from './signup/signup.component';
 import { EventCreateComponent } from './event-create/event-create.component';
+import { AuthGuard } from './auth.guard';
+import { AdminComponent } from './admin/admin.component';
+import { PageComponent } from './admin/page/page.component';
 
 
 
@@ -26,24 +29,45 @@ const routes: Routes = [
     
   },
   {
-    path:'event',
+    path:'event/:postid',
     component:EventPageComponent
   },
   {
-    path:'register',
+    path:'event/:postid/register',
     component:RegistrationComponent
+    // canActivate:[AuthGuard]
+  },
+  {
+    path:'event/:postid/register/:edit',
+    component:RegistrationComponent
+    // canActivate:[AuthGuard]
   },
   {
     path:'confirm',
-    component:ConfirmComponent
+    component:ConfirmComponent,
+    // canActivate:[AuthGuard]
   },
   {
     path:'createevent',
-    component:EventCreateComponent
+    component:EventCreateComponent,
+    // canActivate:[AuthGuard]
   },
   {
     path:'edit/:postid',
-    component:EventCreateComponent
+    component:EventCreateComponent,
+    // canActivate:[AuthGuard]
+  },
+  {
+    path:'success/:regnum',
+    component:SuccessComponent
+  },
+  {
+    path:'admin',
+    component:AdminComponent
+  },
+  {
+    path:'admin/:type',
+    component:PageComponent
   },
   // {
   //   path:'dashboard',
@@ -63,6 +87,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[AuthGuard]
 })
 export class AppRoutingModule { }

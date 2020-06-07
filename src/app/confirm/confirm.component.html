@@ -1,1 +1,27 @@
-<p>confirm works!</p>
+<div>
+    <p>Preview for {{reg.eventId}}</p>
+    <p>{{reg.eventName}}</p>
+    <p>Name : {{reg.fullname}}</p>
+    <p>MobileNo : {{reg.mobileno}}</p>
+    <p>Email : {{reg.emailid}}</p> 
+    <p>ticket Count : {{reg.ticketcount}}  {{reg.regtype}}</p>
+    <img [src]="imageUrl" [alt]="reg.fullname">
+
+</div>
+
+<div>
+    <button (click)="edit()" class="btn btn-warn">Edit</button>
+    <button class="btn btn-primary" (click)="save()">Confirm</button>
+</div>
+
+
+
+<!-- 
+fullname : string;
+    mobileno : string;
+    emailid  : string;
+    regtype  : string;
+    ticketcount : number;
+    idproof  : File | string;
+
+ -->
