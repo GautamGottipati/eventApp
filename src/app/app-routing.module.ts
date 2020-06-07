@@ -11,6 +11,9 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { SuccessComponent } from './success/success.component';
 import { SignupComponent } from './signup/signup.component';
 import { EventCreateComponent } from './event-create/event-create.component';
+import { AuthGuard } from './auth.guard';
+import { AdminComponent } from './admin/admin.component';
+import { PageComponent } from './admin/page/page.component';
 
 
 
@@ -19,31 +22,58 @@ const routes: Routes = [
     path: '',
     component:DashboardComponent,
     children:[
-      {path:'live',component:LiveComponent},
-      {path:'past',component:PastComponent},
-      {path:'upcoming',component:UpcomingComponent}
+      {path:'events',component:UpcomingComponent}
     ]  
     
   },
   {
-    path:'event',
-    component:EventPageComponent
+    path:'signup',
+    component:SignupComponent
   },
   {
-    path:'register',
-    component:RegistrationComponent
+    path:'event/:postid',
+    component:EventPageComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'event/:postid/register',
+    component:RegistrationComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'event/:postid/register/:edit',
+    component:RegistrationComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'confirm',
-    component:ConfirmComponent
+    component:ConfirmComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'createevent',
-    component:EventCreateComponent
+    component:EventCreateComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'edit/:postid',
-    component:EventCreateComponent
+    component:EventCreateComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'success/:regnum',
+    component:SuccessComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'admin',
+    component:AdminComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'admin/:type',
+    component:PageComponent,
+    canActivate:[AuthGuard]
   },
   // {
   //   path:'dashboard',
@@ -63,6 +93,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[AuthGuard]
 })
 export class AppRoutingModule { }

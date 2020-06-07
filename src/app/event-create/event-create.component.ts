@@ -1,8 +1,11 @@
 import { Component, OnInit,EventEmitter, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { EventsService } from '../events.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../events.model';
+// import { read } from 'fs';
+import { mimeType } from './mime-type.validator';
+
 
 
 @Component({
@@ -17,6 +20,9 @@ export class EventCreateComponent implements OnInit {
   enteredSummary = '';
   enteredValue = '';
   enteredDate = '';
+  isLoading = false;
+  form : FormGroup;
+  imagepreview :string;
   post : Post;
   private mode = 'create';
   private postId : string;
@@ -27,34 +33,58 @@ export class EventCreateComponent implements OnInit {
   constructor(public eventService:EventsService, public route :ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+        'enteredTitle':new FormControl(null, {validators:[Validators.required]}),
+        'enteredOrg': new FormControl(null,{validators:[Validators.required]}),
+        'enteredSummary': new FormControl(null,{validators:[Validators.required]}),
+        'enteredDate': new FormControl(null,{validators:[Validators.required]}),
+        'enteredValue': new FormControl(null,{validators:[Validators.required]}),
+        'image':new FormControl(null,{validators:[Validators.required], asyncValidators:[mimeType]})
+
+
+    });
     this.route.paramMap.subscribe((paramMap: ParamMap)=>{
         if(paramMap.has('postid')){
-          console.log(this.post);
+          console.log("Hello :",paramMap);
           this.mode = 'edit';
           this.postId = paramMap.get('postid');
+          // Show spin wheel here
+          this.isLoading=true;
           this.eventService.getPost(this.postId).subscribe(postData=>{
+            // disable spin wheel here
+            this.isLoading=false;
             this.post = {
               id : postData._id,
               title:postData.title,
               organiser:postData.organiser,
               info : postData.info,
               date : postData.date,
-              content : postData.content
-            }
+              content : postData.content,
+              imagePath: postData.imagePath,
+              creator:postData.creator
+            };
+            this.form.setValue({
+              'enteredTitle':this.post.title,
+              'enteredOrg': this.post.organiser,
+              'enteredSummary': this.post.info,
+              'enteredDate': this.post.date,
+              'enteredValue': this.post.content,
+              'image':this.post.imagePath
+
+            })
           })
         }else{
-          console.log(this.post);
+          console.log("Outside ",this.post);
           this.mode = 'create';
           this.postId= null;
         }
     });
   }
 
-  onSavePost(form:NgForm){
+  onSavePost(){
     // post:HTMLTextAreaElement
     // this.newPost = this.
-    if(form.invalid){
-      // alert("enter proper values")
+    if(this.form.invalid){
       return
     }
     // alert("came in new")
@@ -65,16 +95,30 @@ export class EventCreateComponent implements OnInit {
     //       date : form.value.enteredDate,
     //       content : form.value.enteredValue
     //   }
-
+    this.isLoading= true;
     if(this.mode==="create"){
-      this.eventService.addPost(form.value.enteredTitle,form.value.enteredOrg,form.value.enteredSummary,form.value.enteredDate,form.value.enteredValue)
+      this.eventService.addPost(this.form.value.enteredTitle,this.form.value.enteredOrg,this.form.value.enteredSummary,this.form.value.enteredDate,this.form.value.enteredValue,this.form.value.image)
     }else{
-      this.eventService.updatePost(this.postId,form.value.enteredTitle,form.value.enteredOrg,form.value.enteredSummary,form.value.enteredDate,form.value.enteredValue)
+      this.eventService.updatePost(this.postId,this.form.value.enteredTitle,this.form.value.enteredOrg,this.form.value.enteredSummary,this.form.value.enteredDate,this.form.value.enteredValue,this.form.value.image)
     }
-
-      form.resetForm();
+    this.isLoading=false;
+      this.form.reset();
       console.log("reset")
     // alert(newEvent.content);
+  }
+
+  onImagePicked(event: Event){
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({'image':file});
+    this.form.get('image').updateValueAndValidity();
+    console.log("file",file);
+    console.log("form",this.form);
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      this.imagepreview = reader.result as string;
+      console.log(this.imagepreview);
+    };
+    reader.readAsDataURL(file);
   }
 
   

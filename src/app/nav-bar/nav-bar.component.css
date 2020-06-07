@@ -1,0 +1,29 @@
+.nav-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    font-family: calibri;
+    font-size: x-large;
+  }
+  
+  a {
+    text-decoration: none;
+    margin-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+  
+  .nav-link {
+    padding-right: .5rem !important;
+    padding-left: .5rem !important;
+  }
+  
+  /* Fixes dropdown menus placed on the right side */
+  .ml-auto .dropdown-menu {
+    left: auto !important;
+    right: 0px;
+  }

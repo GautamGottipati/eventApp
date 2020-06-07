@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { EventsService } from '../events.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Post } from '../events.model';
 
 @Component({
   selector: 'app-event-page',
@@ -7,24 +10,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventPageComponent implements OnInit {
   image = "../../assets/images/banner-1.jpg";
-
+  isLoading = false;
   display = "none";
+  post: Post;
+  private postId :string;
 
-  constructor() { }
+  constructor(public eventService:EventsService, public router:Router, public route:ActivatedRoute ) { }
 
   ngOnInit(): void {
+    this.isLoading =true;
+    this.route.paramMap.subscribe((paramMap:ParamMap)=>{
+      console.log("Printing paramMap ",paramMap);
+      this.postId = paramMap.get('postid');
+      this.eventService.getPost(this.postId).subscribe(postData=>{
+        this.post = {
+          id : postData._id,
+          title:postData.title,
+          organiser:postData.organiser,
+          info : postData.info,
+          date : postData.date,
+          content : postData.content,
+          imagePath: postData.imagePath,
+          creator:postData.creator
+        };
+        this.isLoading = false;
+      });
+    })
   }
 
-  toggleRegister(){
-    this.display = "flex";
+  register(){
+    this.router.navigate(['/event',this.post.id,'register']);
   }
 
-  getDisplay(){
-    return this.display;
-  }
-
-  close(){
-    this.display = "none";
-  }
-
+  
 }

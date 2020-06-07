@@ -20,8 +20,6 @@ export class DashboardComponent implements OnInit {
   }
 
   closeModel(){
-    // console.log("In close model",this.modelbg);
-    // alert("Will close");
     this.message = "none";
   }
 

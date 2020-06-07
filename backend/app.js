@@ -5,10 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
+var path =  require('path')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var eventsRouter = require('./routes/events');
+var userRouter = require('./routes/user');
+var registration = require('./routes/registration')
 
 
 var app = express();
@@ -33,20 +36,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+app.use("/images",express.static(path.join(__dirname,"/public")));
+app.use("/",express.static(path.join(__dirname,"angular")));
 
 app.use((req,res,next)=>{
   res.setHeader("Access-Control-Allow-Origin","*")
   res.setHeader(
     "Access-Control-Allow-Headers",
-  "Origin,X-Requested-With,Content-Type,Accept"
+  "Origin,X-Requested-With,Content-Type,Accept , Authorization"
   );
-  res.setHeader("Access-Control-Allow-Methods","GET, POST, PATCH,DELETE, OPTIONS,PUT");
+  res.setHeader("Access-Control-Allow-Methods","GET, POST, PATCH,DELETE, OPTIONS, PUT ");
   next();
 })
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/events',eventsRouter);
+app.use('/user',userRouter);
+app.use('/registration',registration);
+
+app.use((req,res,next)=>{
+  res.sendFile(path.join(__dirname,"angular","index.html"))
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

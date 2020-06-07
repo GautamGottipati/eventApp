@@ -5,4 +5,6 @@ export interface Post{
     info : string;
     date : any;
     content : string;
+    imagePath : File |string;
+    creator : string;
 }

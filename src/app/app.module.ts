@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'; 
 import { MatCardModule } from '@angular/material/card'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +27,13 @@ import { SuccessComponent } from './success/success.component';
 import { SignupComponent } from './signup/signup.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthInterceptor } from './auth-interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { PageComponent } from './admin/page/page.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ErrorInterceptor } from './error.interceptor';
+import {MatDialogModule} from '@angular/material/dialog'; 
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +50,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SuccessComponent,
     SignupComponent,
     EventCreateComponent,
+    AdminComponent,
+    PageComponent,
+    NavBarComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -47,13 +61,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CarouselModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    HttpClientModule
+    MatPaginatorModule,
+    MatGridListModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide:HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi:true},
+    {provide:HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi:true}
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

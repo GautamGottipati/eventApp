@@ -1,0 +1,14 @@
+a{
+    text-decoration: none;
+    color:blue;
+}
+
+a:hover{
+    cursor: pointer;
+}
+
+img{
+    height: auto;
+    width: 100%;
+}
+

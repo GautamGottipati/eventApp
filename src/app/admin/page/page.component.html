@@ -1,0 +1,198 @@
+<app-nav-bar></app-nav-bar>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<!-- registration  -->
+
+<div class="container" *ngIf="type == 'reg' && !isLoading">
+  <div class="row" style="display: inline-block;">
+    <h2>All Registrations</h2> 
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal1" (click)="charts()">Visualise</button>
+  </div>
+    <!-- <br> -->
+    <div class="row">
+      <table style="margin-top: 10px;" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Registration No.</th>
+            <th>Date</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reg of allreg">
+            <td><a class="btn" data-toggle="modal" data-target="#myModal2" (click)="popup(reg.regnum)">{{reg.regnum}}</a></td>
+            <td>{{reg.date}}</td>
+            <td>{{reg.fullname}}</td>
+            <td><button type="button" class="btn btn-info btn-lg"
+              data-toggle="modal" data-target="#myModal" (click)="changeImg(reg.idproof)">submited proof</button></td>
+         
+          </tr>
+         </tbody>
+      </table>
+
+    </div>
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- <h4 class="modal-title">{{event.title}}</h4> -->
+          </div>
+          <div class="modal-body">
+            <!-- <p>{{reg.idproof}}</p> -->
+            <img [src]="imgPath" alt="proof">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+    <div id="myModal1" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Chart</h4>
+          </div>
+          <div class="modal-body">
+            
+              <canvas #piechart >{{chart}} </canvas>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+
+    <div id="myModal2" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <h2 class="modal-title">Event : {{eventName}}</h2>
+            
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-6">
+                  Name:
+                </div>
+                <div class="col-sm-6">
+                  {{fullname}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  Email id:
+                </div>
+                <div class="col-sm-6">
+                  {{emailid}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  Phone No.:
+                </div>
+                <div class="col-sm-6">
+                  {{mobileno}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  Registration type:
+                </div>
+                <div class="col-sm-6">
+                  {{regtype}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  Total tickets:
+                </div>
+                <div class="col-sm-6">
+                  {{totaltickets}}
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+   
+
+
+
+
+  </div>
+
+  
+
+  <!-- Users -->
+  <div class="container" *ngIf= "type == 'users' && !isLoading " >
+    Users
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email ID</th>
+          <th>Mobile No.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of allUser">
+          <td><a >{{user.fullname}}</a></td>
+          <td>{{user.emailid}}</td>
+          <td>{{user.mobileno}}</td>
+        </tr>
+       </tbody>
+    </table>
+  </div>
+
+  <!-- Events -->
+
+  <div class="container" *ngIf="type == 'events' && !isLoading">
+    <h2>Events</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Event Name</th>
+          <th>Organiser</th>
+          <th>Event Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of allEvents">
+          <td><a href="">{{event.title}}</a></td>
+          <td>{{event.organiser}}</td>
+          <td>{{(event.date).slice(0,10)}}</td>
+          
+        </tr>
+       </tbody>
+    </table>
+  </div>
+
+  <!-- Admins -->
+
+  <div class="container" *ngIf="type == 'asd' && !isLoading">
+    asfaf
+
+  </div>
+
+   

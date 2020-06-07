@@ -1,27 +1,37 @@
+<app-nav-bar></app-nav-bar>
+
 <div class="container main">
     <div class="row">
         <h1 style="margin: auto;">Create</h1>
     </div>
     <div class="row" style="margin-top: 1rem;">
-        <form (submit)="onSavePost(postForm)" #postForm="ngForm" >
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading" >
             <mat-card>
                 <mat-form-field>
-                    <input matInput type="text" [ngModel]="post?.title" name="enteredTitle" placeholder="Enter Title" required>
+                    <input matInput type="text"  formControlName="enteredTitle" placeholder="Enter Title">
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput type="text" [ngModel]="post?.organiser" name="enteredOrg" placeholder="Enter your Organisation" required>
+                    <input matInput type="text" formControlName="enteredOrg" placeholder="Enter your Organisation" >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput type="text" [ngModel]="post?.info" name="enteredSummary" placeholder="Give a small summary upto 20 charaters about your event" required>
+                    <input matInput type="text" formControlName="enteredSummary" placeholder="Give a small summary upto 20 charaters about your event" >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput type="date" [ngModel]="post?.date" name="enteredDate" placeholder="Enter the date of Event" required>
+                    <input matInput type="date" formControlName="enteredDate" placeholder="Enter the date of Event" >
                 </mat-form-field>
                 <mat-form-field>
-                    <textarea matInput rows="6" [ngModel]="post?.content" name="enteredValue" placeholder="Tell us about your event" required></textarea>
+                    <textarea matInput rows="6" formControlName="enteredValue" placeholder="Tell us about your event" ></textarea>
                 </mat-form-field>
+                <div >
+                    <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button><br>
+                    <input type="file" #filePicker (change)="onImagePicked($event)" >
+                </div>
+                <div class="imagePreview" *ngIf="imagepreview !=='' && imagepreview && form.get('image').valid">
+                    <img [src]="imagepreview" [alt]="form.value.enteredTitle">
+                </div>
                 
-                <button mat-raised-button color="accent" type="submit" t>Save Post</button>
+                <button mat-raised-button color="accent" type="submit" >Create</button>
             </mat-card>
     
         </form>

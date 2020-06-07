@@ -34,3 +34,11 @@
     transform: rotate(45deg);
     cursor: pointer;
 }
+
+.info{
+    display: inline-block;
+}
+
+mat-spinner{
+    margin: 0 auto;
+}
