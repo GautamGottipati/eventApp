@@ -66,6 +66,7 @@ export class UpcomingComponent implements OnInit, OnDestroy {
   // ]
   
   posts:Post[] = []
+  foruser = [] ;
   isLoading = false;  
   totalEvents = 0;
   postsPerPage = 2;
@@ -96,23 +97,14 @@ export class UpcomingComponent implements OnInit, OnDestroy {
         this.posts=eventData.posts;
       }
     );
-    console.log("I am adding this",this.posts);
+    // console.log("I am adding this",this.posts);
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener()
     .subscribe(isAuthenticated=>{
       this.userIsAuthenticated = isAuthenticated;
       this.userId = this.authService.getUserId();
+
     });
-  }
-
-  onChangePage(pageData : PageEvent){
-    console.log(pageData)
-    this.isLoading=true;
-    this.currentPage = pageData.pageIndex + 1;
-    this.postsPerPage = pageData.pageSize;
-    console.log(this.currentPage,this.postsPerPage)
-    this.eventService.getPosts(this.postsPerPage,this.currentPage);
-
   }
 
   onDelete(postId:string){
@@ -127,7 +119,6 @@ export class UpcomingComponent implements OnInit, OnDestroy {
       alert("Please login to register");
       return;
     }
-    alert("You are logged in successfully");
     this.router.navigate(['/event',postId]);
 
   }
@@ -136,11 +127,6 @@ export class UpcomingComponent implements OnInit, OnDestroy {
     this.eventSub.unsubscribe();
     this.authStatusSub.unsubscribe();
   }
-  
-  // if(recievedPost){
-  //   alert("came da")
-  //   this.posts.push(this.recievedPost)
-  // }
   
 
 

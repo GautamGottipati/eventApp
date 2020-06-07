@@ -22,52 +22,58 @@ const routes: Routes = [
     path: '',
     component:DashboardComponent,
     children:[
-      {path:'live',component:LiveComponent},
-      {path:'past',component:PastComponent},
-      {path:'upcoming',component:UpcomingComponent}
+      {path:'events',component:UpcomingComponent}
     ]  
     
   },
   {
+    path:'signup',
+    component:SignupComponent
+  },
+  {
     path:'event/:postid',
-    component:EventPageComponent
+    component:EventPageComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'event/:postid/register',
-    component:RegistrationComponent
-    // canActivate:[AuthGuard]
+    component:RegistrationComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'event/:postid/register/:edit',
-    component:RegistrationComponent
-    // canActivate:[AuthGuard]
+    component:RegistrationComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'confirm',
     component:ConfirmComponent,
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
   },
   {
     path:'createevent',
     component:EventCreateComponent,
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
   },
   {
     path:'edit/:postid',
     component:EventCreateComponent,
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
   },
   {
     path:'success/:regnum',
-    component:SuccessComponent
+    component:SuccessComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'admin',
-    component:AdminComponent
+    component:AdminComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'admin/:type',
-    component:PageComponent
+    component:PageComponent,
+    canActivate:[AuthGuard]
   },
   // {
   //   path:'dashboard',

@@ -36,50 +36,8 @@ var storage = multer.diskStorage({
 
 /* GET home page. */
 router.get('/api/posts', function(req, res, next) {
-    // const posts = [
-    //           {
-    //             id : "5asdfsaf0",
-    //             title:"First Event",
-    //             organiser:"abc",
-    //             info : "This is  first",
-    //             date : "12/04/1999",
-    //             content : "Hello world"
-    //           },
-    //           {
-    //             id : "5asdfsaf0",
-    //             title:"First Event",
-    //             organiser:"abc",
-    //             info : "This is  first",
-    //             date : "12/04/1999",
-    //             content : "Hello world"
-    //           },
-    //           {
-    //             id : "5asdfsaf0",
-    //             title:"First Event",
-    //             organiser:"abc",
-    //             info : "This is  first",
-    //             date : "12/04/1999",
-    //             content : "Hello world"
-    //           },
-    //           {
-    //             id : "5asdfsaf0",
-    //             title:"First Event",
-    //             organiser:"abc",
-    //             info : "This is  first",
-    //             date : "12/04/1999",
-    //             content : "Hello world"
-    //           }
-    // ];
-    const pageSize = +req.query.pagesize;
-    const currentPage = +req.query.page;
-    console.log(pageSize,currentPage)
     const postQuery = Post.find();
     let fetchedPosts;
-    if(pageSize && currentPage){
-      postQuery
-      .skip(pageSize * (currentPage - 1))
-      .limit(pageSize)
-    }
    postQuery.then(documents =>{
      fetchedPosts = documents;
      return Post.count();
@@ -93,6 +51,11 @@ router.get('/api/posts', function(req, res, next) {
         posts : fetchedPosts,
         maxPosts: count
       });
+   })
+   .catch(error=>{
+     res.status(500).json({
+       message: "Creating a post failed",
+     })
    }); 
   
 });
@@ -104,6 +67,11 @@ router.get('/api/posts/:id',(req,res,next)=>{
     }else{
       res.status(404).json({message:'Page not found!'});
     }
+  })
+  .catch(error=>{
+    res.status(500).json({
+      message:"Fetching Posts Failed"
+    })
   });
 })
 
@@ -120,19 +88,13 @@ router.post('/api/posts',checkAuth, multer({storage: storage}).single("image") ,
     creator : req.userData.userId
 
   });
-  console.log(post);
+  // console.log(post);
   post.save().then(createdPost=>{
     res.status(201).json({
       message:"Post added successfully",
       post:{
         ...createdPost,
         id : createdPost._id
-        // title:createdPost.title,
-        // organiser:createdPost.organiser,
-        // info:createdPost.info,
-        // date: createdPost.date,
-        // content:createdPost.content,
-        // imagePath:createdPost.imagePath 
       }
       
     })
@@ -144,7 +106,7 @@ router.post('/api/posts',checkAuth, multer({storage: storage}).single("image") ,
 router.delete('/api/posts/:id',checkAuth,(req,res,next)=>{
   // console.log(req.params.id);
   Post.deleteOne({_id:req.params.id, creator:req.userData.userId}).then(result=>{
-    console.log(result)
+    // console.log(result)
     if(result.n > 0){
       res.status(200).json({
         message:"Delete successful"
@@ -152,6 +114,10 @@ router.delete('/api/posts/:id',checkAuth,(req,res,next)=>{
     }else{
       res.status(401).json({message:"Not authorized"});
     }
+    }).catch(error=>{
+      res.status(500).json({
+        message:"Fetching Posts Failed"
+      })
     });
 
   
@@ -175,7 +141,7 @@ router.put("/api/posts/:id",checkAuth, multer({storage: storage}).single("image"
     imagePath :imagePath,
     creator: req.userData.userId
   });
-  console.log(post);
+  // console.log(post);
   Post.updateOne({_id:req.params.id , creator: req.userData.userId},
     {$set : {title:req.body.title,
             organiser:req.body.organiser,
@@ -183,14 +149,19 @@ router.put("/api/posts/:id",checkAuth, multer({storage: storage}).single("image"
             date : req.body.date,
             content : req.body.content,
             imagePath :imagePath}}).then(result=>{
-    console.log(result);
-    if(result.nModified > 0){
+    // console.log(result);
+    if(result.n > 0){
     res.status(200).json({
       message:"Update successful"
     });
   }else{
     res.status(401).json({message:"Not authorized"});
   }
+  })
+  .catch(error=>{
+    res.status(500).json({
+      message: "Couldn't update post"
+    })
   });
 })
 module.exports = router;

@@ -1,5 +1,5 @@
 <div class="container" style="text-align: center;">
-    <p>REGISTER HERE</p>
+    <h1 style="font-weight: bold;"> SIGN UP</h1>
 </div>
 <div class="container">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
@@ -51,10 +51,13 @@
 
         
       </form> 
-      <div class="row" *ngIf="successfulSignup">
+      <div class="alert alert-success" *ngIf="successfulSignup">
+        <strong>Success!</strong> Indicates a successful or positive action.
+      </div>
+      <!-- <div class="row" *ngIf="successfulSignup">
           <p>You have successfully signed up.</p>
           <span>Click here to login</span><a class="btn btn-primary" routerLink="/">Click</a>
-      </div>
+      </div> -->
   </div>
 
 

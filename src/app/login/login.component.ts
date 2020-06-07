@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 // import { EventEmitter } from 'protractor';
 
 @Component({
@@ -14,9 +15,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   @Output() public childEvent = new EventEmitter()
   isLoading = false;
   private authListenerSubs : Subscription;
+  private authStatusSub : Subscription;
   userIsAuthenticated = false;
 
-  constructor( public authService : AuthService ) { }
+  constructor( public authService : AuthService, private router: Router ) { }
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -24,13 +26,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(isAuthenticated=>{
         this.userIsAuthenticated = isAuthenticated;
     });
+
+    this.authStatusSub = this.authService.getAuthStatusListener()
+    .subscribe(authStatus=>{
+      this.isLoading = false;
+    })
   }
 
   callSignup(){
-    // alert("You just called me");
-    // console.log(DashboardComponent);
-    this.childEvent.emit("flex");
-    // console.log("Sent flex");
+    this.router.navigate(['signup']);
+
   }
 
   onLogin(form: NgForm){
@@ -38,10 +43,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    alert("came here");
     console.log(form.value);
     this.authService.login(form.value.email, form.value.password);
-    this.isLoading = false;
+    // this.isLoading = false;
 
   }
 
@@ -51,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.authListenerSubs.unsubscribe();
+    this.authStatusSub.unsubscribe();
 
   }
 

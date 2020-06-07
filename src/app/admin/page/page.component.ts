@@ -61,12 +61,8 @@ export class PageComponent implements OnInit {
   }
 
   popup(regnum:string){
-    // alert(regnum);
     this.regService.getRegByRegName(regnum).subscribe(reg=>{
       console.log(reg);
-      // this.registered = reg;
-      // console.log(this.registered);
-      // console.log(this.registered.post[0].fullname)
       this.fullname = reg.post[0].fullname;
       this.mobileno = reg.post[0].mobileno;
       this.emailid = reg.post[0].emailid;

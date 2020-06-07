@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
@@ -28,18 +28,19 @@ router.post('/api/signup',(req ,res, next)=>{
         fullname: req.body.fullname,
         password:hash,
         mobileno : req.body.mobileNo,
-        emailid : req.body.email
+        emailid : req.body.email,
       });
       console.log(user)
       user.save()
       .then(result=>{
         res.status(201).json({
           message:"User created successfully",
-          result : result
+          result : result,
+          usertype: result.usertype
         })
       }).catch(err=>{
         res.status(500).json({
-          error: err
+            message: "Invalid Authentication Credentials!"
         });
       });
     });
@@ -75,12 +76,13 @@ router.post('/api/login',(req,res,next)=>{
         res.status(200).json({
             token: token,
             expiresIn: 3600 ,//seconds
-            userId : fetchedUser._id
+            userId : fetchedUser._id,
+            usertype : fetchedUser.usertype
         });
     })
     .catch(err=>{
         res.status(401).json({
-            error: err
+            message: "Invalid Authentication Credentials!"
           });
     });
 });

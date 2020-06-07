@@ -30,6 +30,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './auth-interceptor';
 import { AdminComponent } from './admin/admin.component';
 import { PageComponent } from './admin/page/page.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ErrorInterceptor } from './error.interceptor';
+import {MatDialogModule} from '@angular/material/dialog'; 
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,8 @@ import { PageComponent } from './admin/page/page.component';
     EventCreateComponent,
     AdminComponent,
     PageComponent,
+    NavBarComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -63,11 +69,14 @@ import { PageComponent } from './admin/page/page.component';
     MatPaginatorModule,
     MatGridListModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi:true}
+    {provide:HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi:true},
+    {provide:HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi:true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

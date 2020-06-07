@@ -85,8 +85,6 @@ export class EventCreateComponent implements OnInit {
     // post:HTMLTextAreaElement
     // this.newPost = this.
     if(this.form.invalid){
-      alert("enter proper values")
-      
       return
     }
     // alert("came in new")

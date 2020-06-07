@@ -13,6 +13,7 @@ export class AuthService {
   private token : string;
   private tokenTimer: any;
   private userId :string;
+  private userType : string;
   private authStatusListener =new Subject<boolean>();
 
   constructor(private http:HttpClient, private router:Router) { }
@@ -27,7 +28,7 @@ export class AuthService {
   }
 
   getIsAuth(){
-    return this.isAuthenticated;
+    return this.isAuthenticated  || this.getUserId()==="5edc7494bb0a5746339aa4a0" ;
   }
 
   getUserId(){
@@ -40,50 +41,28 @@ export class AuthService {
       this.http.post('http://localhost:3000/user/api/signup',authData)
       .subscribe(response=>{
         console.log(response);
-        // this.router.navigate(["/"]);
-      })
+        this.router.navigate(["/"]);
+      },error=>{
+        this.authStatusListener.next(false);
+        console.log(error);
+      });
+      
       
   }
 
-  // getUsers(postsPerPage: number , currentPage: number){
-  //   // console.log(this.events)
-  //   // return [...this.events]
-  //   const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`
-  //   this.http.get<{message:string,posts:any ,maxPosts:number}>('http://localhost:3000/events/api/posts'+queryParams)
-  //   .pipe(map((postData)=>{
-  //       return {posts : postData.posts.map(post=>{
-  //           return{
-  //             id : post._id,
-  //             title:post.title,
-  //             organiser:post.organiser,
-  //             info : post.info,
-  //             date : post.date,
-  //             content : post.content,
-  //             imagePath:post.imagePath,
-  //             creator : post.creator      
-  //           };
-  //       }), maxPosts:postData.maxPosts
-  //     };
-  //   }))
-  //   .subscribe((transformedPosts)=>{
-  //     console.log(transformedPosts);
-  //     this.events = transformedPosts.posts;
-  //     this.eventsUpdated.next({posts:[...this.events],
-  //                             postCount :transformedPosts.maxPosts});
-  //   });
-  //   // this.router.navigate(["/createevent"]);
-  // }
-
+  
   getAllUsers(){
     return this.http.get<{message:string,user: any,totalusers :number}>('http://localhost:3000/user')
   }
 
   login(email:string , password:string){
     const authData ={email:email , password:password};
-    this.http.post<{token:string , expiresIn: number, userId:string}>('http://localhost:3000/user/api/login',authData)
+    this.http.post<{token:string , expiresIn: number, userId:string, usertype:string}>('http://localhost:3000/user/api/login',authData)
     .subscribe(response=>{
+      console.log(response);
       const token = response.token;
       this.token = token;
+      this.userType = response.usertype;
       // console.log(response);
       if(token){
         const expiresInDuration = response.expiresIn;
@@ -96,9 +75,16 @@ export class AuthService {
         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
         console.log("My ed = ",expirationDate);
         this.saveAuthData(token,expirationDate, this.userId)
-        this.router.navigate(["/"]);
+        if(this.userType==="admin"){
+          this.router.navigate(["/admin"])
+        }else{
+        this.router.navigate(["/events"]);
       }
-    })
+      }
+    },error=>{
+      this.authStatusListener.next(false);
+      this.router.navigate(["/"]);  
+    });
   }
 
   autoAuthUser(){

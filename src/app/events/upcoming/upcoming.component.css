@@ -15,13 +15,20 @@ a:hover{
 }
 
 .card:hover{
-    transform: scale(1.2);
+    transform: scale(1.02);
     z-index: 100;
     
 }
 
 .card{
-    background-color: rgb(66, 112, 238);
+    background-color: rgb(215, 221, 241);
+}
+
+img{
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
+    margin: auto;
 }
 
 .event{
@@ -50,5 +57,14 @@ mat-paginator{
 }
 
 .postimage img{
+    width: 100%;
+}
+
+.col{
+    width: 33.3%;
+    float: left;
+}
+
+.row{
     width: 100%;
 }

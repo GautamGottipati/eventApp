@@ -14,7 +14,7 @@ import { EventsService } from '../events.service';
 export class RegistrationComponent implements OnInit {
 
   // @Output() public registerEvent = new EventEmitter()
-
+  isLoading = false;
   form : FormGroup;
   regtypeSelect = '';
   self :boolean = false;
@@ -22,6 +22,7 @@ export class RegistrationComponent implements OnInit {
   imagepreview: string;
   eventId :string;
   myevent ;
+  title: string;
   
   constructor(
     private router:Router,
@@ -31,6 +32,7 @@ export class RegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.form = new FormGroup({
       'fullname':new FormControl(null, {validators:[Validators.required]}),
       'mobileNo': new FormControl(null,{validators:[Validators.required]}),
@@ -62,35 +64,49 @@ export class RegistrationComponent implements OnInit {
       this.eventId = paramMap.get('postid');
       this.eventService.getPost(this.eventId).subscribe(event=>{
         this.myevent = event;
+        this.title = this.myevent.title;
+
       })
     }
+    this.isLoading = false;
   })
 }
   
 register(){
-  alert("came");
-  if(this.form.invalid){
+  console.log(this.form);
+  if(this.form.value.totalticket === null && this.form.value.regtype==="self"){
+    this.form.value.totalticket = 1
+  }
+  const formvalue = this.form.value;
+  const a = formvalue.emailid!= null && formvalue.fullname!=null && formvalue.image != null && formvalue.mobileNo != null && formvalue.regtype!= null && formvalue.totalticket != null;
+  console.log(formvalue.emailid,formvalue.fullname,formvalue.image,formvalue.mobileNo,formvalue.regtype,formvalue.totalticket)
+
+  console.log("Hello a ",a);
+  if(!a){
     alert("invalid form");
     return;
   }
-  if(this.form.value.totalticket === null || this.form.value.regtype==="self"){
-    this.form.value.totalticket = 1
-  }
-  console.log("Hello",this.form);
+ 
+
   this.self=false;
-  this.regService.setReg(this.myevent.title, this.eventId,this.form.value.fullname , this.form.value.mobileNo ,this.form.value.emailid  ,
+  if(this.mode==="create"){
+  this.regService.setReg(this.title, this.eventId,this.form.value.fullname , this.form.value.mobileNo ,this.form.value.emailid  ,
     this.form.value.regtype ,this.form.value.totalticket ,this.form.value.image );
-  this.form.reset();
+  }
+  if(this.mode === "edit"){
+    const eventname = localStorage.getItem("eventName");
+    this.regService.setReg(eventname, this.eventId,this.form.value.fullname , this.form.value.mobileNo ,this.form.value.emailid  ,
+      this.form.value.regtype ,this.form.value.totalticket ,this.form.value.image );
+  }
+  // this.form.reset();
   this.router.navigate(['confirm']);
 }
 
   gotoConfirm(){
-    alert("Thanks");
     this.router.navigate(['confirm']);
   }
 
   changeSelect(){
-    // alert("came");
     console.log(this.regtypeSelect);
     if(this.regtypeSelect === "self"){
       this.self = true;
@@ -101,7 +117,6 @@ register(){
   }
 
   onImagePicked(event: Event){
-    alert("Came here onImagePicked");
     const file = (event.target as HTMLInputElement).files[0];
     console.log("Hello filesra ",file);
     this.form.patchValue({'image':file});
@@ -118,9 +133,3 @@ register(){
 
 }
 
-// fullname : string;
-//     mobileno : string;
-//     emailid  : string;
-//     regtype  : string;
-//     ticketcount : number;
-//     idproof  : File | string;

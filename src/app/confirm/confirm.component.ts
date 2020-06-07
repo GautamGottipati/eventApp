@@ -39,8 +39,8 @@ export class ConfirmComponent implements OnInit {
   }
 
   save(){
-    alert("Hello world");
     console.log("Inside save: ",this.reg)
+    localStorage.removeItem("")
     this.regService.addReg(this.reg.eventName ,this.reg.eventId,this.reg.fullname,this.reg.mobileno,this.reg.emailid,this.reg.regtype,this.reg.ticketcount,this.reg.idproof);
   }
 

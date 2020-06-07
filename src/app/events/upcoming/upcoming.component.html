@@ -1,48 +1,26 @@
-<div class="container">
+<div class="container" style="margin-top: 5px;">
+  <div class="row" style="background-color: black; color: white; font-weight: bold;" >
+    <h1>Events</h1>
+  </div>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="row" *ngIf="posts.length > 0 && !isLoading" >
-  <mat-card class="event" *ngFor="let post of posts" >
-    <div class="postimage">
-      <img [src]="post.imagePath" [alt]="post.title">
-    </div>
-    <mat-card-header >
-      <mat-card-title>
-        {{ post.title }}
-      </mat-card-title>
-      <mat-card-subtitle>
-        {{post.organiser}}
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="row">
-        {{post.info}}
-      </div>
-      <div class="row">
-        {{post.date.slice(0,10)}}
-      </div>
-      
-      
-    </mat-card-content>
-    <mat-card-actions >
-      <a mat-button [routerLink]="['/edit',post.id]" color="primary" *ngIf="userIsAuthenticated && userId==post.creator">EDIT</a>
+  <div class="row" *ngIf="posts.length > 0 && !isLoading">
+    <div class="col-sm-4" *ngFor="let post of posts"><!--  *ngFor = "let person of fetchedRecipe" -->
+      <div class="card">
+        <img [src]="post.imagePath" [alt]="post.title">
+          <div class="card-body" >
+            <h2 class="card-title" style="text-align: center;"> {{ post.title }}</h2>
+            <p class="card-text">Created By : {{post.organiser}}</p>
+            <p class="card-text">
+              Summary: {{post.info}}
+                <br>
+              Event Date :{{post.date.slice(0,10)}} 
+            </p>
+            <!-- <a  (click)="callthis()" class="btn btn-primary">Register</a> -->
+            <a mat-button [routerLink]="['/edit',post.id]" color="primary" *ngIf="userIsAuthenticated && userId==post.creator">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(post.id)" *ngIf = "userIsAuthenticated && userId==post.creator">DELETE</button>
       <button mat-button color="accent" (click)="userRegistration(post.id) " *ngIf="userId!= post.creator">Register</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-paginator [length]="totalEvents"
-              [pageSize]="postsPerPage"
-              [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)" >
-  </mat-paginator>
-
-  <mat-paginator [length]="totalEvents"
-              [pageSize]="postsPerPage"
-              [pageSizeOptions]="pageSizeOptions">
-</mat-paginator>
-
-
-  
-</div>  
-<p class="mat-body-1 info-text" *ngIf="posts.length ==0 && !isLoading">* No posts added yet</p>
-
-</div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div> 

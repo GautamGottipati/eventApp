@@ -1,3 +1,4 @@
+<app-nav-bar></app-nav-bar>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 <!-- registration  -->
@@ -81,7 +82,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
-            <h4 class="modal-title">Event : {{eventName}}</h4>
+            <h2 class="modal-title">Event : {{eventName}}</h2>
             
             <div class="container">
               <div class="row">
@@ -156,7 +157,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of allUser">
-          <td><a href="">{{user.fullname}}</a></td>
+          <td><a >{{user.fullname}}</a></td>
           <td>{{user.emailid}}</td>
           <td>{{user.mobileno}}</td>
         </tr>

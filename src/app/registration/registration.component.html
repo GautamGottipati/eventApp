@@ -1,67 +1,73 @@
-<div class="container" style="text-align: center;">
-    <p>REGISTER HERE</p>
+<app-nav-bar></app-nav-bar>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="container myform" >
+    <div class="container" style="text-align: center;">
+        <h1>REGISTER HERE</h1>
+    </div>
+    <div class="container" >
+        <form [formGroup]="form" (submit)="register()" >
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="fullname">Full Name:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" formControlName="fullname" name="fullname" id="fullname" placeholder="Full Name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="mobileNo">Mobile No:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="tel" formControlName="mobileNo" name="mobileNo" id="mobileNo" placeholder="Mobile">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="email">Email address:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="email" formControlName="emailid" #email placeholder="Enter email..." class="form-control" id="email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="regtype">Registration Type:</label>
+                </div>
+                <div class="col-sm-6">
+                    <select class="form-control" id="reg" [(ngModel)]="regtypeSelect" formControlName="regtype" name="reg" (change)="changeSelect()">
+                        <option value="" disabled selected hidden>Choose Registration type...</option>
+                        <option value="self" >Self</option>
+                        <option value="group">Group</option>
+                        <option value="corporate">Corporate</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="totalticket">Ticket count:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input *ngIf="self"  name="totalticket" type="text"  value="1"  readonly>
+                    <input *ngIf="!self" type="number" formControlName="totalticket" class="totalticket" id="totalticket" placeholder="Total tickets">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="file">Upload:</label>
+                </div>
+                <div class="col-sm-6">
+                    <button class="upload" mat-stroked-button type="button" (click)="filePicker.click()">Upload Id</button><br>
+                    <input type="file" #filePicker   (change)="onImagePicked($event)">
+                </div>
+            </div>
+             
+            <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+    
+            
+          </form> 
+      </div>
+    
+    
+    
 </div>
-<div class="container">
-    <form [formGroup]="form" (submit)="register()" >
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="fullname">Full Name:</label>
-            </div>
-            <div class="col-sm-6">
-                <input type="text" formControlName="fullname" name="fullname" id="fullname" placeholder="Full Name">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="mobileNo">Mobile No:</label>
-            </div>
-            <div class="col-sm-6">
-                <input type="tel" formControlName="mobileNo" name="mobileNo" id="mobileNo" placeholder="Mobile">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="email">Email address:</label>
-            </div>
-            <div class="col-sm-6">
-                <input type="email" formControlName="emailid" #email placeholder="Enter email..." class="form-control" id="email">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="regtype">Registration Type:</label>
-            </div>
-            <div class="col-sm-6">
-                <select id="reg" [(ngModel)]="regtypeSelect" formControlName="regtype" name="reg" (change)="changeSelect()">
-                    <option value="self">Self</option>
-                    <option value="group">Group</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="totalticket">Ticket count:</label>
-            </div>
-            <div class="col-sm-6">
-                <input *ngIf="self"  name="totalticket" type="text"  value="1"  readonly>
-                <input *ngIf="!self" type="number" formControlName="totalticket" class="totalticket" id="totalticket" placeholder="Total tickets">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="file">Upload:</label>
-            </div>
-            <div class="col-sm-6">
-                <button mat-stroked-button type="button" (click)="filePicker.click()">Upload Id</button><br>
-                <input type="file" #filePicker   (change)="onImagePicked($event)">
-            </div>
-        </div>
-         
-        <br>
-        <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
-
-        
-      </form> 
-  </div>
-
-

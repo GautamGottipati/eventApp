@@ -12,5 +12,11 @@
     margin: auto;
 }
 
+.logout{
+    height: 100%;
+}
 
+a:hover{
+    cursor: pointer;
+}
 

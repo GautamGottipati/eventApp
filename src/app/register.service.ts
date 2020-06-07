@@ -28,6 +28,16 @@ export class RegisterService {
               ticketcount : ticketcount,
               idproof  : idproof
             };
+            // Storing in local storage
+            localStorage.setItem("eventName",eventName);
+            localStorage.setItem("eventId",eventId);
+            localStorage.setItem("fullname",fullname);
+            localStorage.setItem("mobileno",mobileno);
+            localStorage.setItem("emailid",emailid);
+            localStorage.setItem("regtype",regtype);
+            localStorage.setItem("ticketcount",""+ticketcount);
+
+
             console.log("Reg user is set:",this.regUser);
 
     }
@@ -98,6 +108,13 @@ export class RegisterService {
               .subscribe(responseData => {
                   console.log("Reg: ",responseData.message);
                   console.log("Regnum: ",responseData.regnum);
+                  localStorage.removeItem("eventName");
+                  localStorage.removeItem("eventId");
+                  localStorage.removeItem("fullname");
+                  localStorage.removeItem("mobileno");
+                  localStorage.removeItem("emailid");
+                  localStorage.removeItem("regtype");
+                  localStorage.removeItem("ticketcount");
                   this.router.navigate(['/success/',responseData.regnum]);
               });
 

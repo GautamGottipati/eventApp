@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use("/images",express.static(path.join(__dirname,"/public")));
+app.use("/",express.static(path.join(__dirname,"angular")));
 
 app.use((req,res,next)=>{
   res.setHeader("Access-Control-Allow-Origin","*")
@@ -53,6 +54,10 @@ app.use('/users', usersRouter);
 app.use('/events',eventsRouter);
 app.use('/user',userRouter);
 app.use('/registration',registration);
+
+app.use((req,res,next)=>{
+  res.sendFile(path.join(__dirname,"angular","index.html"))
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

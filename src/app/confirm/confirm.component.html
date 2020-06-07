@@ -1,18 +1,47 @@
-<div>
-    <p>Preview for {{reg.eventId}}</p>
-    <p>{{reg.eventName}}</p>
-    <p>Name : {{reg.fullname}}</p>
-    <p>MobileNo : {{reg.mobileno}}</p>
-    <p>Email : {{reg.emailid}}</p> 
-    <p>ticket Count : {{reg.ticketcount}}  {{reg.regtype}}</p>
-    <img [src]="imageUrl" [alt]="reg.fullname">
+<app-nav-bar></app-nav-bar>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Please check before you proceed</h1>
+            <div>
+                <span>Event Name: </span> <p>{{eventName}}</p>
+                <span>Full Name :</span><p>{{reg.fullname}}</p>
+                <span>Mobile Number:</span><p>{{reg.mobileno}}</p>
+                <span>Email Id :</span><p>{{reg.emailid}}</p>
+                <span>Total Tickets bought :</span><p>{{reg.ticketcount}}</p>
+                <span>Registration Type: </span><p>{{reg.regtype}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <span>Id proof submitted by you: </span>
+                <div class="imagepreview">
+                    <img [src]="imageUrl" [alt]="reg.fullname">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        
+            <button (click)="edit()" class="btn btn-warn">Edit</button>
+            <button class="btn btn-primary" (click)="save()" style="margin-left: 20px;" >Confirm</button>
+        
+
+    </div>
+    
+
+    
+    
+    
+     
+    
+    
+
+
+
 
 </div>
 
-<div>
-    <button (click)="edit()" class="btn btn-warn">Edit</button>
-    <button class="btn btn-primary" (click)="save()">Confirm</button>
-</div>
 
 
 

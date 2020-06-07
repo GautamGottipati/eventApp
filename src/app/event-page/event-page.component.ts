@@ -10,7 +10,7 @@ import { Post } from '../events.model';
 })
 export class EventPageComponent implements OnInit {
   image = "../../assets/images/banner-1.jpg";
-
+  isLoading = false;
   display = "none";
   post: Post;
   private postId :string;
@@ -18,6 +18,7 @@ export class EventPageComponent implements OnInit {
   constructor(public eventService:EventsService, public router:Router, public route:ActivatedRoute ) { }
 
   ngOnInit(): void {
+    this.isLoading =true;
     this.route.paramMap.subscribe((paramMap:ParamMap)=>{
       console.log("Printing paramMap ",paramMap);
       this.postId = paramMap.get('postid');
@@ -32,22 +33,14 @@ export class EventPageComponent implements OnInit {
           imagePath: postData.imagePath,
           creator:postData.creator
         };
+        this.isLoading = false;
       });
     })
   }
 
   register(){
-    // this.display = "flex";
-    alert(this.post.id);
     this.router.navigate(['/event',this.post.id,'register']);
   }
 
-  getDisplay(){
-    return this.display;
-  }
-
-  close(){
-    this.display = "none";
-  }
-
+  
 }
